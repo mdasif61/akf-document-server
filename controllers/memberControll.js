@@ -27,4 +27,10 @@ const getMember=async(req,res)=>{
     res.status(200).json(member)
 }
 
-module.exports = { addMember, getMember };
+const deleteMember=async(req,res)=>{
+    const id=req.params.id;
+    const member=await MemberData.deleteOne({_id:id})
+    res.json(member)
+}
+
+module.exports = { addMember, getMember,deleteMember };
