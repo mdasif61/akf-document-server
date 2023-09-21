@@ -37,12 +37,11 @@ const updateMember=async(req,res)=>{
     const id=req.params.id;
     const filter={_id:id}
     const {data}=req.body;
-    console.log(data)
+    const updateData=Object.keys(data).join(',');
     try {
         const updateDoc={
             $set:{
-                name:data,
-                mobile:data
+                [updateData]:data[updateData]
             }
         };
         const result=await MemberData.updateOne(filter,updateDoc);
