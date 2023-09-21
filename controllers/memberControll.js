@@ -33,4 +33,24 @@ const deleteMember=async(req,res)=>{
     res.json(member)
 }
 
-module.exports = { addMember, getMember,deleteMember };
+const updateMember=async(req,res)=>{
+    const id=req.params.id;
+    const filter={_id:id}
+    const {data}=req.body;
+    console.log(data)
+    try {
+        const updateDoc={
+            $set:{
+                name:data,
+                mobile:data
+            }
+        };
+        const result=await MemberData.updateOne(filter,updateDoc);
+        res.send(result)
+    } catch (error) {
+        console.log(`Error updateing member : ${error}`)
+        res.status(500).send('Internal server error')
+    }
+}
+
+module.exports = { addMember, getMember,deleteMember,updateMember };
