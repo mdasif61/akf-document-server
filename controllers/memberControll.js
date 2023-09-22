@@ -1,7 +1,7 @@
 const MemberData = require("../models/memberModels");
 
 const addMember = async (req, res) => {
-    const { name, mobile, date, share, fee, ifound, penalty, total } = req.body;
+    const { name, mobile, date, share, fee, ifound, penalty, total,month,account,year } = req.body;
     const member = await MemberData.create({
         name,
         mobile,
@@ -10,7 +10,10 @@ const addMember = async (req, res) => {
         fee,
         ifound,
         penalty,
-        total
+        total,
+        month,
+        account,
+        year
     })
     if(member){
         res.status(201).json({

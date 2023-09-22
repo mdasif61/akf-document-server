@@ -8,7 +8,10 @@ const memberSchema=mongoose.Schema({
     ifound:{type:String},
     fee:{type:String},
     penalty:{type:String},
-    total:{type:String}
+    total:{type:String},
+    month:{type:String},
+    account:{type:String},
+    year:{type:String}
 });
 
 const MemberData=mongoose.model('memberData', memberSchema);
