@@ -14,25 +14,92 @@ const fullPageWithData = async (req, res) => {
 
 const allPages = async (req, res) => {
     try {
-        const id=req.params.id;
+        const id = req.params.id;
         let pages;
-        if(!id){
-            pages=await PageData.find({})
-        }else{
-            pages=await PageData.findOne({_id:id})
+        if (!id) {
+            pages = await PageData.find({})
+        } else {
+            pages = await PageData.findOne({ _id: id })
         }
-        if(!pages){
-            res.status(404).json({message:'page not found'})
+        if (!pages) {
+            res.status(404).json({ message: 'page not found' })
         }
         res.status(200).json(pages)
     } catch (error) {
-        console.log('Error: ',error);
-        res.status(500).json({message:'Internal server error'})
+        console.log('Error: ', error);
+        res.status(500).json({ message: 'Internal server error' })
     }
 
-}
+};
+
+const chartAccount = async (req, res) => {
+    try {
+        const accountChart = await PageData.aggregate([
+            {
+                $unwind: "$member"
+            },
+            {
+                $set: {
+                    "member.fee": {
+                        $cond: [
+                            { $eq: ["$member.fee", ""] }, // Check for empty string
+                            0, // If empty string, set to 0
+                            { $toDouble: "$member.fee" } // Convert to double if not empty
+                        ]
+                    },
+                    "member.ifound": {
+                        $cond: [
+                            { $eq: ["$member.ifound", ""] },
+                            0,
+                            { $toDouble: "$member.ifound" }
+                        ]
+                    },
+                    "member.penalty": {
+                        $cond: [
+                            { $eq: ["$member.penalty", ""] },
+                            0,
+                            { $toDouble: "$member.penalty" }
+                        ]
+                    },
+                    "member.total": {
+                        $cond: [
+                            { $eq: ["$member.total", ""] },
+                            0,
+                            { $toDouble: "$member.total" }
+                        ]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalFee: { $sum: "$member.fee" },
+                    totalIfound: { $sum: "$member.ifound" },
+                    totalPenalty: { $sum: "$member.penalty" },
+                    totalTotal: { $sum: "$member.total" }
+                }
+            }
+        ]);
+
+        if (accountChart.length === 0) {
+            res.status(404).json({ message: 'Data not found' });
+        } else {
+            const result = accountChart[0];
+            res.status(200).json({
+                totalFee: result.totalFee,
+                totalIfound: result.totalIfound,
+                totalPenalty: result.totalPenalty,
+                totalTotal: result.totalTotal
+            });
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
 module.exports = {
     fullPageWithData,
-    allPages
+    allPages,
+    chartAccount
 }
