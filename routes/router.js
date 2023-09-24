@@ -1,7 +1,7 @@
 const express = require('express');
 const { addMember, getMember, deleteMember, updateMember, deleteAllMember } = require('../controllers/memberControll');
 const { fullPageWithData, allPages, chartAccount} = require('../controllers/pageControll');
-const { monthRemoveRow } = require('../controllers/monthControll');
+const { monthRemoveRow, updateMonth } = require('../controllers/monthControll');
 
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.post('/pages',fullPageWithData);
 router.get('/all-page',allPages)
 router.get('/all-page/:id',allPages)
 router.get('/chart-total',chartAccount)
-router.delete('/month-delete/:id',monthRemoveRow)
+router.delete('/month-delete/:id',monthRemoveRow);
+router.patch('/update-month/:id',updateMonth)
 module.exports=router;
