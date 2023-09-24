@@ -1,11 +1,12 @@
 const express = require('express');
-const { addMember, getMember, deleteMember, updateMember } = require('../controllers/memberControll');
+const { addMember, getMember, deleteMember, updateMember, deleteAllMember } = require('../controllers/memberControll');
 const { fullPageWithData, allPages, chartAccount} = require('../controllers/pageControll');
 
 const router = express.Router();
 
 router.route('/members').post(addMember).get(getMember);
 router.delete('/delete-member/:id',deleteMember)
+router.delete('/delete-all',deleteAllMember)
 router.patch('/update-member/:id',updateMember)
 router.post('/pages',fullPageWithData);
 router.get('/all-page',allPages)
