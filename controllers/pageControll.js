@@ -32,21 +32,6 @@ const allPages = async (req, res) => {
 
 };
 
-const searchPage=async(req,res)=>{
-    const searchText=req.params.text;
-    try {
-        const result=await PageData.find({
-            $or:[
-                {month:{$regex:searchText, $options:'i'}},
-                {year:{$regex:searchText, $options:'i'}}
-            ]
-        });
-        res.status(200).json(result)
-    } catch (error) {
-        res.status(500).json({message:'internal server error'})
-    }
-}
-
 const chartAccount = async (req, res) => {
     try {
         const accountChart = await PageData.aggregate([
@@ -58,7 +43,7 @@ const chartAccount = async (req, res) => {
                     "member.fee": {
                         $cond: [
                             { $eq: ["$member.fee", ""] },
-                            { $toDouble: "$member.fee" } 
+                            { $toDouble: "$member.fee" }
                         ]
                     },
                     "member.ifound": {
@@ -111,6 +96,22 @@ const chartAccount = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+const searchPage = async (req, res) => {
+    const searchText = req.query.text;
+    try {
+        const result = await PageData.find({
+            $or: [
+                { month: { $regex: searchText, $options: 'i' } },
+                { year: { $regex: searchText, $options: 'i' } }
+            ]
+        });
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(500).json({ message: 'internal server error' })
+    }
+}
+
 
 module.exports = {
     fullPageWithData,

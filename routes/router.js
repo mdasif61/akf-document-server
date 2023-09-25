@@ -11,8 +11,8 @@ router.delete('/delete-all',deleteAllMember)
 router.patch('/update-member/:id',updateMember)
 router.post('/pages',fullPageWithData);
 router.get('/all-page',allPages)
-router.get('/all-page/:text',searchPage)
 router.get('/all-page/:id',allPages)
+router.get('/search',searchPage)
 router.get('/chart-total',chartAccount)
 router.delete('/month-delete/:id',monthRemoveRow);
 router.patch('/update-month/:id',updateMonth)

@@ -21,5 +21,6 @@ const pageSchema = mongoose.Schema({
     year: { type: String, required: true }
 });
 
+
 const PageData = mongoose.model('pageData', pageSchema);
 module.exports = PageData
