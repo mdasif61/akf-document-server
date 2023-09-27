@@ -5,8 +5,7 @@ const userSchema = mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     photo: {
-        type: { String },
-        default: 'https://i.ibb.co/MfZLVyd/akf-logo.jpg'
+        type: String, default: 'https://i.ibb.co/MfZLVyd/akf-logo.jpg'
     },
 
 },
