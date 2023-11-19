@@ -37,6 +37,7 @@ const registerUser=async(req,res)=>{
 const loginUser=async(req,res)=>{
     const {email,password}=req.body;
     const user=await User.findOne({email})
+    console.log(user)
     if(user && (await user.matchPassword(password))){
         res.json({
             _id:user._id,
@@ -49,9 +50,20 @@ const loginUser=async(req,res)=>{
         res.status(400)
         throw new Error ('invalid email or password')
     }
+};
+
+const getLoggedUser=async(req,res)=>{
+    const {_id,name,email,photo}=req.user;
+    res.json({
+        _id,
+        name,
+        email,
+        photo
+    })
 }
 
 module.exports={
     registerUser,
-    loginUser
+    loginUser,
+    getLoggedUser
 }
