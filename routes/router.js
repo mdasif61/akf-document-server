@@ -11,7 +11,7 @@ router.route('/members').post(addMember).get(getMember);
 router.delete('/delete-member/:id',deleteMember)
 router.delete('/delete-all',deleteAllMember)
 router.patch('/update-member/:id',updateMember)
-router.post('/pages',verifyUser,fullPageWithData);
+router.post('/pages',fullPageWithData);
 router.get('/all-page',verifyUser,allPages)
 router.get('/all-page/:id',verifyUser,allPages)
 router.get('/search',verifyUser,searchPage)
