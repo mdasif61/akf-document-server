@@ -11,10 +11,10 @@ router.route('/members').post(addMember).get(getMember);
 router.delete('/delete-member/:id',deleteMember)
 router.delete('/delete-all',deleteAllMember)
 router.patch('/update-member/:id',updateMember)
-router.post('/pages',fullPageWithData);
-router.get('/all-page',allPages)
-router.get('/all-page/:id',allPages)
-router.get('/search',searchPage)
+router.post('/pages',verifyUser,fullPageWithData);
+router.get('/all-page',verifyUser,allPages)
+router.get('/all-page/:id',verifyUser,allPages)
+router.get('/search',verifyUser,searchPage)
 router.get('/chart-total',chartAccount)
 router.delete('/month-delete/:id',monthRemoveRow);
 router.patch('/update-month/:id',updateMonth);
