@@ -17,7 +17,7 @@ const pageSchema = mongoose.Schema({
         }
     ],
     month: { type: String, required: true },
-    account: { type: String, required: true },
+    account: { type: String},
     year: { type: String, required: true }
 });
 
