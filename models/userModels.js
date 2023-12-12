@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema({
     photo: {
         type: String, default: 'https://i.ibb.co/MfZLVyd/akf-logo.jpg'
     },
+    role:{type:String, default:'user'}
 
 },
     { timestamps: true }
