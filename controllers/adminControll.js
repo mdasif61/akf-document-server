@@ -8,6 +8,6 @@ const getAdmin = async (req, res) => {
 };
 
 module.exports = {
-  getAdmin,
+  getAdmin, 
 };
-   
+  
