@@ -18,9 +18,11 @@ const {
   loginUser,
   getLoggedUser,
   logoutUser,
+  getAllUser,
 } = require("../controllers/userControll");
 const verifyUser = require("../middleware/verifyUser");
 const { getAdmin } = require("../controllers/adminControll");
+const verifyAdmin = require("../middleware/verifyAdmin");
 
 const router = express.Router();
 
@@ -40,4 +42,5 @@ router.post("/login", loginUser);
 router.post("/logout", verifyUser, logoutUser);
 router.get("/user", verifyUser, getLoggedUser);
 router.get("/isAdmin", verifyUser, getAdmin);
+router.get('/all-user', verifyUser,verifyAdmin, getAllUser)
 module.exports = router;

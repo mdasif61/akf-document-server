@@ -12,13 +12,13 @@ const verifyUser = async (req, res, next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findById(decoded.id)
         if (!user) {
-            return res.status(401).json({ message: 'Unauthorized 1' })
+            return res.status(403).json({ message: 'Unauthorized 1' })
         };
         req.user = user;
         next()
     } catch (error) {
         console.error('Authentication error:', error)
-        return res.status(401).json({ message: 'Unauthorized 2' })
+        return res.status(403).json({ message: 'Unauthorized 2' })
     }
 }
 
