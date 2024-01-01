@@ -68,8 +68,32 @@ const logoutUser = async (req, res) => {
 };
 
 const getAllUser = async (req, res) => {
-  const result = await User.find().select("-password");
+  const userId = req.user._id;
+  const result = await User.find({ _id: { $ne: userId } }).select("-password");
   res.status(200).send(result);
+};
+
+const getSearchUser = async (req, res) => {
+  const searchText = req.params.text;
+  const userId=req.user._id
+  try {
+    const result = await User.find({
+      $and: [
+        {
+          $or: [
+            { name: { $regex: searchText, $options: "i" } },
+            { email: { $regex: searchText, $options: "i" } },
+          ],
+        },
+        {
+          _id:{$ne:userId}
+        }
+      ],
+    });
+    res.status(200).send(result);
+  } catch (error) {
+    return res.status(500).send({ message: "internal server error" });
+  }
 };
 
 module.exports = {
@@ -78,4 +102,5 @@ module.exports = {
   getLoggedUser,
   logoutUser,
   getAllUser,
+  getSearchUser,
 };
