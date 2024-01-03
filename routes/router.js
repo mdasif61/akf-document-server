@@ -24,6 +24,8 @@ const {
 const verifyUser = require("../middleware/verifyUser");
 const { getAdmin, roleChangeAdmin } = require("../controllers/adminControll");
 const verifyAdmin = require("../middleware/verifyAdmin");
+const { getAuthor } = require("../controllers/authorControll");
+const { getMyAccount } = require("../controllers/myAccountControll");
 
 const router = express.Router();
 
@@ -43,7 +45,9 @@ router.post("/login", loginUser);
 router.post("/logout", verifyUser, logoutUser);
 router.get("/user", verifyUser, getLoggedUser);
 router.get("/isAdmin", verifyUser, getAdmin);
+router.get("/isAuthor", verifyUser, getAuthor);
 router.get("/all-user", verifyUser, verifyAdmin, getAllUser);
 router.patch("/change-role/:id", verifyUser, verifyAdmin, roleChangeAdmin);
 router.get("/search-user/:text", verifyUser, getSearchUser);
+router.get("/my-account", verifyUser, getMyAccount);
 module.exports = router;
