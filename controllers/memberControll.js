@@ -38,10 +38,12 @@ const deleteMember = async (req, res) => {
 
 const deleteAllMember = async (req, res) => {
     try {
-        const allMember = await MemberData.deleteMany({});
-        res.json({message:'All Member Deleted Success', deletedCount:allMember.deletedCount})
+        const { allUser } = req.body;
+        const filterUser = allUser ? { name: { $nin: allUser.map(user => user.name) } } : {}
+        const allMember = await MemberData.deleteMany(filterUser);
+        res.json({ message: 'All Member Deleted Success', deletedCount: allMember.deletedCount })
     } catch (error) {
-        res.status(404).json({message:'internal server error'})
+        res.status(404).json({ message: 'internal server error' })
     }
 }
 
@@ -64,4 +66,26 @@ const updateMember = async (req, res) => {
     }
 }
 
-module.exports = { addMember, getMember, deleteMember, updateMember, deleteAllMember };
+const fixedUserRowUpdate = async (req, res) => {
+    const ids = req?.params?.id.split(',');
+    const blankData = req.body;
+
+    const result = await MemberData.updateMany({ _id: { $in: ids } }, {
+        $set: {
+            mobile: blankData.mobile,
+            date: blankData.date,
+            share: blankData.share,
+            fee: blankData.fee,
+            ifound: blankData.ifound,
+            penalty: blankData.penalty,
+            total: blankData.total,
+            month: blankData.month,
+            account: blankData.account,
+            year: blankData.year
+        }
+    })
+    res.status(202).send(result)
+
+}
+
+module.exports = { addMember, getMember, deleteMember, updateMember, deleteAllMember, fixedUserRowUpdate };

@@ -3,7 +3,7 @@ const User = require("../models/userModels");
 const getAdmin = async (req, res) => {
   const user=req.user;
   if(!user?.role==='admin'){
-    res.send({admin:false})
+    res.status(401).send({admin:false})
   }
   const result={admin:user?.role==='admin'};
   res.send(result)

@@ -5,6 +5,7 @@ const {
   deleteMember,
   updateMember,
   deleteAllMember,
+  fixedUserRowUpdate,
 } = require("../controllers/memberControll");
 const {
   fullPageWithData,
@@ -31,9 +32,9 @@ const router = express.Router();
 
 router.route("/members").post(addMember).get(getMember);
 router.delete("/delete-member/:id", deleteMember);
-router.delete("/delete-all", deleteAllMember);
+router.delete("/delete-all",verifyUser,verifyAdmin,deleteAllMember);
 router.patch("/update-member/:id", updateMember);
-router.post("/pages", fullPageWithData);
+router.post("/pages", verifyUser, verifyAdmin, fullPageWithData);
 router.get("/all-page", verifyUser, allPages);
 router.get("/all-page/:id", verifyUser, allPages);
 router.get("/search", verifyUser, searchPage);
@@ -50,4 +51,5 @@ router.get("/all-user", verifyUser, verifyAdmin, getAllUser);
 router.patch("/change-role/:id", verifyUser, verifyAdmin, roleChangeAdmin);
 router.get("/search-user/:text", verifyUser, getSearchUser);
 router.get("/my-account", verifyUser, getMyAccount);
+router.patch('/fixed-user-row/:id',verifyUser,verifyAdmin,fixedUserRowUpdate)
 module.exports = router;
