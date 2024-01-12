@@ -21,6 +21,7 @@ const {
   logoutUser,
   getAllUser,
   getSearchUser,
+  deleteUser,
 } = require("../controllers/userControll");
 const verifyUser = require("../middleware/verifyUser");
 const { getAdmin, roleChangeAdmin } = require("../controllers/adminControll");
@@ -34,7 +35,7 @@ router.route("/members").post(addMember).get(getMember);
 router.delete("/delete-member/:id", deleteMember);
 router.delete("/delete-all",verifyUser,verifyAdmin,deleteAllMember);
 router.patch("/update-member/:id", updateMember);
-router.post("/pages", verifyUser, verifyAdmin, fullPageWithData);
+router.post("/pages/", verifyUser, verifyAdmin, fullPageWithData);
 router.get("/all-page", verifyUser, allPages);
 router.get("/all-page/:id", verifyUser, allPages);
 router.get("/search", verifyUser, searchPage);
@@ -52,4 +53,5 @@ router.patch("/change-role/:id", verifyUser, verifyAdmin, roleChangeAdmin);
 router.get("/search-user/:text", verifyUser, getSearchUser);
 router.get("/my-account", verifyUser, getMyAccount);
 router.patch('/fixed-user-row/:id',verifyUser,verifyAdmin,fixedUserRowUpdate)
+router.delete('/delete-user/:id',verifyUser,verifyAdmin,deleteUser)
 module.exports = router;

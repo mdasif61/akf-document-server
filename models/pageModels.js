@@ -13,7 +13,8 @@ const pageSchema = mongoose.Schema({
             total: { type: Number },
             month: { type: String },
             account: { type: String },
-            year: { type: String }
+            year: { type: String },
+            userId: {type:mongoose.Schema.Types.ObjectId, ref:'User'}
         }
     ],
     month: { type: String, required: true },

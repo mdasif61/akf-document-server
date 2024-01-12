@@ -7,6 +7,7 @@ const fullPageWithData = async (req, res) => {
     account,
     year,
     member,
+    userId:req.user_id
   });
   if (pages) {
     res.status(201).send(pages);

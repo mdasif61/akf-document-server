@@ -1,7 +1,7 @@
 const MemberData = require("../models/memberModels");
 
 const addMember = async (req, res) => {
-    const { name, mobile, date, share, fee, ifound, penalty, total, month, account, year } = req.body;
+    const { name, mobile, date, share, fee, ifound, penalty, total, month, account, year,userId } = req.body;
     const member = await MemberData.create({
         name,
         mobile,
@@ -13,7 +13,8 @@ const addMember = async (req, res) => {
         total,
         month,
         account,
-        year
+        year,
+        userId
     })
     if (member) {
         res.status(201).json({
@@ -39,8 +40,12 @@ const deleteMember = async (req, res) => {
 const deleteAllMember = async (req, res) => {
     try {
         const { allUser } = req.body;
-        const filterUser = allUser ? { name: { $nin: allUser.map(user => user.name) } } : {}
-        const allMember = await MemberData.deleteMany(filterUser);
+        const filterUser = allUser ? allUser.map(user => user.name)  : []
+        const checkFinialFilterUser={
+            _id:{$nin:['admin_id_here', req.user._id]},
+            name:{$nin:filterUser}
+        }
+        const allMember = await MemberData.deleteMany(checkFinialFilterUser);
         res.json({ message: 'All Member Deleted Success', deletedCount: allMember.deletedCount })
     } catch (error) {
         res.status(404).json({ message: 'internal server error' })
@@ -72,16 +77,16 @@ const fixedUserRowUpdate = async (req, res) => {
 
     const result = await MemberData.updateMany({ _id: { $in: ids } }, {
         $set: {
-            mobile: blankData.mobile,
-            date: blankData.date,
-            share: blankData.share,
-            fee: blankData.fee,
-            ifound: blankData.ifound,
-            penalty: blankData.penalty,
-            total: blankData.total,
-            month: blankData.month,
-            account: blankData.account,
-            year: blankData.year
+            mobile: blankData?.mobile,
+            date: blankData?.date,
+            share: blankData?.share,
+            fee: blankData?.fee,
+            ifound: blankData?.ifound,
+            penalty: blankData?.penalty,
+            total: blankData?.total,
+            month: blankData?.month,
+            account: blankData?.account,
+            year: blankData?.year
         }
     })
     res.status(202).send(result)

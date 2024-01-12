@@ -1,5 +1,6 @@
 const User = require("../models/userModels");
 const generateToken = require("../config/generateToken");
+const MemberData = require("../models/memberModels");
 
 const registerUser = async (req, res) => {
   const { name, email, password, photo } = req.body;
@@ -75,7 +76,7 @@ const getAllUser = async (req, res) => {
 
 const getSearchUser = async (req, res) => {
   const searchText = req.params.text;
-  const userId=req.user._id
+  const userId = req.user._id;
   try {
     const result = await User.find({
       $and: [
@@ -86,14 +87,25 @@ const getSearchUser = async (req, res) => {
           ],
         },
         {
-          _id:{$ne:userId}
-        }
+          _id: { $ne: userId },
+        },
       ],
     });
     res.status(200).send(result);
   } catch (error) {
     return res.status(500).send({ message: "internal server error" });
   }
+};
+
+const deleteUser = async (req, res) => {
+  const userId = req.params.id;
+  const user = await User.findById(userId);
+  if (!user) {
+    return res.status(404).json({ message: "user not found" });
+  }
+  await User.findByIdAndDelete(userId);
+  await MemberData.findOneAndDelete({ userId });
+  res.status(202).json({ message: "user delete success" });
 };
 
 module.exports = {
@@ -103,4 +115,5 @@ module.exports = {
   logoutUser,
   getAllUser,
   getSearchUser,
+  deleteUser,
 };

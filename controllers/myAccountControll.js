@@ -40,7 +40,7 @@ const getMyAccount = async (req, res) => {
       },
       {
         $match: {
-          "member.name": req.user.name,
+          "member.userId": req.user._id,
         },
       },
       {
