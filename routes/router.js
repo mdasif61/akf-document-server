@@ -27,7 +27,7 @@ const verifyUser = require("../middleware/verifyUser");
 const { getAdmin, roleChangeAdmin } = require("../controllers/adminControll");
 const verifyAdmin = require("../middleware/verifyAdmin");
 const { getAuthor } = require("../controllers/authorControll");
-const { getMyAccount } = require("../controllers/myAccountControll");
+const { getMyAccount, getSingleMonthData } = require("../controllers/myAccountControll");
 
 const router = express.Router();
 
@@ -54,4 +54,6 @@ router.get("/search-user/:text", verifyUser, getSearchUser);
 router.get("/my-account", verifyUser, getMyAccount);
 router.patch('/fixed-user-row/:id',verifyUser,verifyAdmin,fixedUserRowUpdate)
 router.delete('/delete-user/:id',verifyUser,verifyAdmin,deleteUser)
+router.get('/single-month/:month',verifyUser,getSingleMonthData)
 module.exports = router;
+ 
