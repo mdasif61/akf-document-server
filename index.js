@@ -10,12 +10,13 @@ const app=express();
 
 app.use(cors());
 app.use(express.json());
+
 // app.get('/',(req,res)=>{
 //     res.send('this is home route')
 // })
 app.use('/api/member',router)
 
-module.exports=app
+// module.exports=app
 
 app.listen(port,()=>{
     console.log(`server is running port : ${port}`)
