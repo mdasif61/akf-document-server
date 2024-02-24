@@ -30,9 +30,6 @@ const { getAuthor } = require("../controllers/authorControll");
 const { getMyAccount, getSingleMonthData } = require("../controllers/myAccountControll");
 
 const router = express.Router();
-router.get('/',(req,res)=>{
-  res.send('this is home')
-})
 router.route("/members").post(addMember).get(getMember);
 router.delete("/delete-member/:id", deleteMember);
 router.delete("/delete-all",verifyUser,verifyAdmin,deleteAllMember);
