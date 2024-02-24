@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use('/api/member',router)
 
+module.exports=app
+
 app.listen(port,()=>{
     console.log(`server is running port : ${port}`)
 })
